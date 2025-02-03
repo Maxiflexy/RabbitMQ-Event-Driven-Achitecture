@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class OrderConsumer {
 
-    @RabbitListener(queues = "${rabbit.queue.order.name}")
+    @RabbitListener(queues = "${rabbit.queue.order.stock.name}")
     public void consume(OrderEvent event){
         log.info("Order event received: {}", event.toString());
     }

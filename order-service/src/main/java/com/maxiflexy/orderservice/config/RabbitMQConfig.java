@@ -12,19 +12,33 @@ import org.springframework.context.annotation.Bean;
 @Configuration
 public class RabbitMQConfig {
 
-    @Value("${rabbit.queue.order.name}")
-    private String orderQueue;
+    @Value("${rabbit.queue.order.stock.name}")
+    private String orderStockQueue;
+
+    @Value("${rabbit.queue.order.email.name}")
+    private String orderEmailQueue;
+
 
     @Value("${rabbit.exchange.name}")
     private String exchange;
 
-    @Value("${rabbit.routing.key}")
-    private String orderRoutingKey;
+
+    @Value("${rabbit.routing.key.order.stock}")
+    private String orderStockRoutingKey;
+
+    @Value("${rabbit.routing.key.order.email}")
+    private String orderEmailRoutingKey;
+
 
     // spring bean for rabbitmq queue
     @Bean
-    public Queue orderQueue(){
-        return new Queue(orderQueue);
+    public Queue orderStockQueue(){
+        return new Queue(orderStockQueue);
+    }
+
+    @Bean
+    public Queue orderEmailQueue(){
+        return new Queue(orderEmailQueue);
     }
 
     // spring bean for rabbitmq exchange
@@ -35,10 +49,17 @@ public class RabbitMQConfig {
 
     // Bing between queue and exchange using routing key
     @Bean
-    public Binding binding(){
-        return BindingBuilder.bind(orderQueue())
+    public Binding bindingForStock(){
+        return BindingBuilder.bind(orderStockQueue())
                 .to(exchange())
-                .with(orderRoutingKey);
+                .with(orderStockRoutingKey);
+    }
+
+    @Bean
+    public Binding bindingForEmail(){
+        return BindingBuilder.bind(orderEmailQueue())
+                .to(exchange())
+                .with(orderEmailRoutingKey);
     }
 
     @Bean
