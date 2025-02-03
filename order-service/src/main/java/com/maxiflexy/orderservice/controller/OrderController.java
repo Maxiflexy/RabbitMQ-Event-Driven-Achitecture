@@ -26,6 +26,7 @@ public class OrderController {
         OrderEvent event = new OrderEvent();
         event.setStatus("PENDING");
         event.setMessage("Order is in pending status");
+        event.setOrder(order);
 
         orderProducer.sendMessage(event);
 
