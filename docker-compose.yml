@@ -1,0 +1,18 @@
+services:
+  rabbitmq:
+    image: rabbitmq:4.0.5-management
+    container_name: rabbitmq
+    ports:
+      - 15672:15672  # Management UI
+      - 5672:5672    # AMQP protocol for clients
+    networks:
+      - microservices-net
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+networks:
+  microservices-net:
+    driver: bridge
+
+volumes:
+  rabbitmq_data:
